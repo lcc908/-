@@ -4,12 +4,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>myfirst-vue</title>
-    <style>
-      font-size: ;
-    </style>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    (function (win, doc) {
+      function change() {
+        //预设div满屏的实际宽度
+        doc.documentElement.style.fontSize = doc.documentElement.clientWidth / 750 * 100 + 'px';
+        // 1rem 320 42px
+        var div = win.document.createElement('div');
+        div.className = "testDiv";
+        div.style.width = '7.5rem'; //7.5下是100%页面
+        win.document.body.appendChild(div);
+        var getWidth = parseFloat(win.getComputedStyle(div).width);
+
+        if (getWidth > doc.documentElement.clientWidth) {
+          //rem计算不准
+          var ratio = getWidth / doc.documentElement.clientWidth;
+          doc.documentElement.style.fontSize = (doc.documentElement.clientWidth / 750 * 100 / ratio) + 'px';
+        } else {
+          doc.documentElement.style.fontSize = doc.documentElement.clientWidth / 750 * 100 + 'px';
+        }
+      }
+
+      change();
+      win.addEventListener('resize', change, false);
+    })(window, document);
+  </script>
 </html>
